@@ -12,6 +12,7 @@
   "author": "Cristian Cepeda",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.14.0",
     "babel-core": "^6.14.0",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.5",
@@ -43,6 +44,8 @@
     "react-transform-hmr": "^1.0.4",
     "redbox-react": "^1.3.0",
     "redux": "^3.6.0",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.1.0",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
