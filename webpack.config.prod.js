@@ -69,6 +69,12 @@ module.exports = {
         test: /\.sass$/,
         include: path.join(__dirname, 'client'),
         loader: 'style-loader!css-loader!sass-loader'
+      },
+      // Images
+      {
+        test: /\.(png|jpg|gif)$/,
+        include: path.join(__dirname, 'client', 'images'),
+        loader: 'file-loader?name=img/img-[hash:6].[ext]'
       }
     ]
   }
