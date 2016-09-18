@@ -7,7 +7,9 @@
     "build": "npm run clean && npm run build:webpack",
     "clean": "rimraf dist",
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test mocha --recursive --reporter spec test",
+    "watch-test": "NODE_ENV=test mocha --recursive --watch --reporter spec test",
+    "lint": "eslint '**/**.js'"
   },
   "author": "Cristian Cepeda",
   "license": "MIT",
