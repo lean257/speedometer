@@ -24,7 +24,7 @@ let DomainRepository = {
         keys = results.map((key)=> {
           return key.replace(this.namespace, '');
         });
-        client.DEL(keys);
+        this.adapter.del(keys);
       }
     });
   }
