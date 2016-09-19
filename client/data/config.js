@@ -1,5 +1,5 @@
-let config = {
-  'defaultTitle': 'PokeDOM'
+const config = {
+  defaultTitle: 'PokeDOM',
 };
 
-export default config
+export default config;

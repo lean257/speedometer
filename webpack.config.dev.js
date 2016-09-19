@@ -7,12 +7,12 @@ module.exports = {
   entry: [
     'bootstrap-sass!./bootstrap-sass.config.js',
     'webpack-hot-middleware/client',
-    './client/app'
+    './client/app',
   ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/static/'
+    publicPath: '/static/',
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -20,8 +20,8 @@ module.exports = {
     new ProvidePlugin({
       jQuery: 'jquery',
       $: 'jquery',
-      jquery: 'jquery'
-    })
+      jquery: 'jquery',
+    }),
   ],
   module: {
     loaders: [
@@ -29,45 +29,45 @@ module.exports = {
       // bootstrap-webpack has access to the jQuery object
       {
         test: /bootstrap\/js\//,
-        loader: 'imports?jQuery=jquery'
+        loader: 'imports?jQuery=jquery',
       },
 
       // Needed for the css-loader when [bootstrap-webpack](https://github.com/bline/bootstrap-webpack)
       // loads bootstrap's css.
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/font-woff'
+        loader: 'url?limit=10000&mimetype=application/font-woff',
       }, {
         test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/font-woff'
+        loader: 'url?limit=10000&mimetype=application/font-woff',
       }, {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/octet-stream'
+        loader: 'url?limit=10000&mimetype=application/octet-stream',
       }, {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file-loader'
+        loader: 'file-loader',
       }, {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=image/svg+xml'
+        loader: 'url?limit=10000&mimetype=image/svg+xml',
       },
       // js
       {
         test: /\.js$/,
         loaders: ['babel'],
-        include: path.join(__dirname, 'client')
+        include: path.join(__dirname, 'client'),
       },
       // SASS
       {
         test: /\.sass$/,
         include: path.join(__dirname, 'client'),
-        loader: 'style-loader!css-loader!sass-loader'
+        loader: 'style-loader!css-loader!sass-loader',
       },
       // Images
       {
         test: /\.(png|jpg|gif)$/,
         include: path.join(__dirname, 'client', 'images'),
-        loader: 'file-loader?name=img/img-[hash:6].[ext]'
-      }
-    ]
-  }
+        loader: 'file-loader?name=img/img-[hash:6].[ext]',
+      },
+    ],
+  },
 };

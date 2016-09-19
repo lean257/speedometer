@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { browserHistory } from 'react-router';
 
-let AddDomain = React.createClass({
+class AddDomain extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
   componentDidMount() {
     document.title = `${this.props.config.defaultTitle} | Add a new Domain`;
-  },
-  _handleSubmit(event) {
+  }
+  handleSubmit(event) {
     event.preventDefault();
-    let {uri, httpMethod} = this.refs;
-    this.props.addDomain(Date.now(), uri.value, httpMethod.value);
+    this.props.addDomain(Date.now(), this.uri.value, this.httpMethod.value);
     browserHistory.push('/');
-  },
+  }
   render() {
     return (
-      <form autoComplete="off" onSubmit={this._handleSubmit}>
+      <form autoComplete="off" onSubmit={this.handleSubmit}>
         <h2>Add a new domain to watch</h2>
         <div className="group">
-          <input type="text" placeholder="https://www.google.com/" ref="uri"/>
+          <input type="text" placeholder="https://www.google.com/" ref={(c) => { this.uri = c; }} />
           <label htmlFor="uri">URI</label>
         </div>
         <div className="group">
-          <input type="text" placeholder="GET" ref="httpMethod"/>
+          <input type="text" placeholder="GET" ref={(c) => { this.httpMethod = c; }} />
           <label htmlFor="httpMethod">HTTP Method</label>
         </div>
         <div className="group">
@@ -29,6 +32,13 @@ let AddDomain = React.createClass({
       </form>
     );
   }
-});
+}
+
+AddDomain.propTypes = {
+  config: PropTypes.shape({
+    defaultTitle: PropTypes.string.isRequired,
+  }),
+  addDomain: PropTypes.func,
+};
 
 export default AddDomain;
