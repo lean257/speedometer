@@ -7,6 +7,8 @@ const app = express();
 const compiler = webpack(config);
 const PORT = process.env.PORT || 3000;
 
+global.__APP_DIR__ = __dirname;
+
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
@@ -18,7 +20,7 @@ app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.use('/api/v1/domain', require('./api/v1/domain'));
+app.use('/api/v1/domain', require(`${__APP_DIR__}/api/v1/domain`));
 
 app.listen(PORT, 'localhost', function(err) {
   if (err) {
