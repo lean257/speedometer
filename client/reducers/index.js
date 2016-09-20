@@ -7,7 +7,7 @@ import domains from './domains';
 const rootReducer = combineReducers({
   config,
   domains,
-  routing: routerReducer
+  routing: routerReducer,
 });
 
 export default rootReducer;

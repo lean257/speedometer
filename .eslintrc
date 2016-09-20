@@ -8,22 +8,28 @@
     "node": true
   },
   "parser": "babel-eslint",
+  "extends": "airbnb",
   "rules": {
+    "react/require-extension": "off",
     "quotes": [2, "single"],
     "strict": [2, "never"],
     "babel/generator-star-spacing": 1,
-    "babel/new-cap": [2, {
+    "new-cap": [2, {
       capIsNewExceptions: ["Router"]
     }],
     "babel/object-shorthand": 1,
-    "babel/arrow-parens": 1,
+    # "babel/arrow-parens": 1, Conflict with airbnb eslint
     "babel/no-await-in-loop": 1,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
-    "react/react-in-jsx-scope": 2
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/react-in-jsx-scope": 2,
+    "react/no-unused-prop-types": [2, { skipShapeProps: true }],
+    "mocha/no-exclusive-tests": "error"
   },
   "plugins": [
     "babel",
-    "react"
+    "react",
+    "mocha"
   ]
 }

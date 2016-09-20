@@ -7,8 +7,8 @@ import Main from './Main';
 function mapStateToProps(state) {
   return {
     config: state.config,
-    domains: state.domains
-  }
+    domains: state.domains,
+  };
 }
 
 function mapDispachToProps(dispatch) {

@@ -1,33 +1,35 @@
-let redis = require('redis');
-let namespace = 'pokedom:domain:';
+const redis = require('redis');
 
-let DomainRepository = {
+const namespace = 'pokedom:domain:';
+
+const DomainRepository = {
   namespace,
-  adapter: redis.createClient({prefix: namespace}),
-  save({id, uri, httpMethod}) {
-    return new Promise((resolve, reject) => {
+  adapter: redis.createClient({ prefix: namespace }),
+  save({ id, uri, httpMethod }) {
+    const promise = new Promise((resolve, reject) => {
       if (!id) {
-        return reject({id, uri, httpMethod});
+        reject({ id, uri, httpMethod });
+        return;
       }
-      this.adapter.hmset(id, {id, uri, httpMethod}, (err, data) => {
+
+      this.adapter.hmset(id, { id, uri, httpMethod }, (err, data) => {
         if (err) {
           reject(err, 'An error ocurred saving a new domain');
-        } else if (data == 'OK') {
-          resolve({id, uri, httpMethod});
+        } else if (data === 'OK') {
+          resolve({ id, uri, httpMethod });
         }
       });
     });
+    return promise;
   },
   flush() {
-    this.adapter.keys('*', function(err, results = []) {
+    this.adapter.keys('*', function callback(err, results = []) {
       if (results.lenth > 0) {
-        keys = results.map((key)=> {
-          return key.replace(this.namespace, '');
-        });
+        const keys = results.map(key => key.replace(this.namespace, ''));
         this.adapter.del(keys);
       }
     });
-  }
+  },
 };
 
 module.exports = DomainRepository;

@@ -1,24 +1,16 @@
-import { createStore, compose, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 
-const loggerMiddleware = createLogger();
-
-// import the root reducer
 import rootReducer from './reducers/index';
-
 import config from './data/config';
 
-const enhancers = compose(
-   window.devToolsExtension
-   ? window.devToolsExtension()
-   : (f) => f
-);
+const loggerMiddleware = createLogger();
 
 // create an object for the default data
-const defaultSate = { config, domains: [] }
+const defaultSate = { config, domains: [] };
 
 const store = createStore(
   rootReducer,
@@ -30,7 +22,7 @@ export const history = syncHistoryWithStore(browserHistory, store);
 
 if (module.hot) {
   module.hot.accept('./reducers/', () => {
-    const nextRootReducer = require('./reducers/index').default;
+    const nextRootReducer = require('./reducers/index').default; // eslint-disable-line
     store.replaceReducer(nextRootReducer);
   });
 }
