@@ -11,7 +11,7 @@ html {
   font-family: sans-serif;
 }
 a {
-  color: #ffc600;
+  color: #bcf2ff;
 }
 
 *, *:before, *:after {
@@ -28,18 +28,22 @@ body {
 }
 
 form {
-  width:500px;
-  border:1px solid grey;
+  width: 600px;
+  border: 1px solid #2EC4B6;
   padding:50px;
-  background:white;
+  background: #FDFFFC;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.41), 0 0 1px 20px rgba(0, 0, 0, 0.08);
+}
+
+form > h2.caption {
+  color: #011627;
 }
 
 input {
   width: 100%;
   padding:20px;
   margin:20px 0;
-  border:2px solid black;
+  border:2px solid #011627;
   transition: all 0.1s;
   font-size:20px;
 }
@@ -49,25 +53,34 @@ input {
 }
 
 input + label {
-  border:1px solid black;
+  border: 1px solid #FF9F1C;
   position: absolute;
   top:0;
   left: 20px;
   transition: all 0.1s;
   opacity:1;
-  background:white;
+  background: #FDFFFC;
   border:2px solid;
   border-width: 0 2px 0 2px;
   padding:0 5px;
   transform: translateY(calc(50% + 5px));
 }
 
+input.button {
+  background: #011627;
+  color: #FDFFFC;
+}
+
+input.button:focus {
+  background: #011627;
+  color: #2EC4B6;
+}
 
 input:focus {
   outline:0;
-  border-color:#ffc600;
+  border-color:#2EC4B6;
 }
 
 input:focus + label {
-  border-color:#ffc600;
+  border-color:#2EC4B6;
 }

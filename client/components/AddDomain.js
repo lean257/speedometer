@@ -17,7 +17,7 @@ class AddDomain extends React.Component {
   render() {
     return (
       <form autoComplete="off" onSubmit={this.handleSubmit}>
-        <h2>Add a new domain to watch</h2>
+        <h2 className="caption">Add a new domain to watch</h2>
         <div className="group">
           <input type="text" placeholder="https://www.google.com/" ref={(c) => { this.uri = c; }} />
           <label htmlFor="uri">URI</label>
