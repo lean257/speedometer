@@ -1,15 +1,27 @@
 import React, { PropTypes } from 'react';
+import { Line as LineChart } from 'rc-chartjs';
 
 class Dashboard extends React.Component {
   componentDidMount() {
     document.title = `${this.props.config.defaultTitle} | Dashboard`;
   }
+
   render() {
+    const options = this.props.config.defaultChartOptions;
     const domains = this.props.domains.map(domain => (
-      <h1 key={domain.id}>{domain.httpMethod} {domain.uri}</h1>
+      <div className="col col-lg-6" key={domain.id}>
+        <div className="panel panel-default">
+          <div className="panel-heading">
+            <h3 className="panel-title">{domain.uri}</h3>
+          </div>
+          <div className="panel-body">
+            <LineChart data={domain.chartData} options={options} />
+          </div>
+        </div>
+      </div>
     ));
     return (
-      <div>
+      <div className="row">
         {domains}
       </div>
     );
@@ -19,6 +31,7 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
   config: PropTypes.shape({
     defaultTitle: PropTypes.string.isRequired,
+    defaultChartOptions: PropTypes.shape(),
   }),
   domains: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,

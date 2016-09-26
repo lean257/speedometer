@@ -12,10 +12,13 @@ router.route('/')
     const { id, uri, httpMethod } = request.body;
     const alternateId = id;
     const generatedId = Date.now(); // TODO: Create a domain id issuer.
-
+    const chartData = {
+      labels: [],
+      datasets: [{ data: [] }],
+    };
     repository.save({ id: generatedId, uri, httpMethod })
       .then((data) => {
-        response.status(201).json(Object.assign({}, data, { alternateId }));
+        response.status(201).json(Object.assign({}, data, { alternateId, chartData }));
       })
       .catch((err, message) => {
         console.log(message, JSON.stringify(err)); // TODO: report error using sentry
