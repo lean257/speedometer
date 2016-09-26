@@ -18,7 +18,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.use('/api/v1/domain', require('./api/v1/domain'));
+app.use('/api/v1/domains', require('./api/v1/domains'));
 
 app.listen(PORT, 'localhost', (err) => {
   if (err) {

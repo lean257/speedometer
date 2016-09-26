@@ -32,7 +32,7 @@ export function addDomain(id, uri, httpMethod) {
   return (dispatch) => {
     const requestData = { id, uri, httpMethod };
     dispatch(offlineAddDomain(requestData));
-    return post('/api/v1/domain', requestData)
+    return post('/api/v1/domains', requestData)
       .then(responseData => dispatch(receiveDomain(responseData.data)));
   };
 }

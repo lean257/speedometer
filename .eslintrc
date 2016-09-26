@@ -5,7 +5,8 @@
   },
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "mocha": true
   },
   "parser": "babel-eslint",
   "extends": "airbnb",
@@ -25,7 +26,8 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/react-in-jsx-scope": 2,
     "react/no-unused-prop-types": [2, { skipShapeProps: true }],
-    "mocha/no-exclusive-tests": "error"
+    "mocha/no-exclusive-tests": 2,
+    "import/no-extraneous-dependencies": [2, { "devDependencies": ["**/**_test.js"] }],
   },
   "plugins": [
     "babel",
