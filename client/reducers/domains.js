@@ -3,8 +3,8 @@ import { ADD_DOMAIN, RECEIVE_DOMAIN } from '../actions';
 function domains(state = [], action) {
   switch (action.type) {
     case ADD_DOMAIN: {
-      const { id, uri, httpMethod } = action;
-      return [{ id, uri, httpMethod }, ...state];
+      const { id, uri, httpMethod, chartData } = action;
+      return [{ id, uri, httpMethod, chartData }, ...state];
     }
     case RECEIVE_DOMAIN: {
       const index = state.findIndex(domain => domain.id === action.alternateId);
