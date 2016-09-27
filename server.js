@@ -7,7 +7,7 @@ const app = express();
 const compiler = webpack(config);
 const PORT = process.env.PORT || 3000;
 
-require('dotenv').config();
+app.use('/api/v1/domains', require('./api/v1/domains'));
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -20,13 +20,11 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.use('/api/v1/domains', require('./api/v1/domains'));
-
 app.listen(PORT, 'localhost', (err) => {
   if (err) {
     console.log(err);
     return;
   }
 
-  console.log(`Listening at http://localhost:${PORT}`);
+  console.log(`Listening at http://localhost:${PORT} NODE_ENV=${process.env.NODE_ENV}`);
 });

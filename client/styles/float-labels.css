@@ -18,15 +18,6 @@ a {
   box-sizing: inherit;
 }
 
-body {
-  min-height: 100vh;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  /*background:url('https://unsplash.it/1500/1000?image=1021');*/
-  /*background-size:cover;*/
-}
-
 form {
   width: 600px;
   border: 1px solid #2EC4B6;
