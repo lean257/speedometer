@@ -1,33 +1,38 @@
-const redis = require('redis');
+const knexConfig = require('./../knexfile')[process.env.NODE_ENV || 'development'];
+const knex = require('knex')(knexConfig);
+const bookshelf = require('bookshelf')(knex);
 
-const namespace = 'pokedom:domain:';
+bookshelf.plugin('registry');
+
+const Domain = bookshelf.model('Domain', { tableName: 'domains', hasTimestamps: true });
+
+const recordToObject = ({ attributes }) => Object.assign({}, {
+  id: attributes.id,
+  uri: attributes.uri,
+  httpMethod: attributes.http_method,
+  alternateId: attributes.alternate_id,
+});
 
 const DomainRepository = {
-  namespace,
-  adapter: redis.createClient({ prefix: namespace }),
-  save({ id, uri, httpMethod }) {
-    const promise = new Promise((resolve, reject) => {
-      if (!id) {
-        reject({ id, uri, httpMethod });
+  save({ uri, httpMethod, alternateId }) {
+    return new Promise((resolve, reject) => {
+      if (!alternateId) {
+        reject({ uri, httpMethod, alternateId });
         return;
       }
 
-      this.adapter.hmset(id, { id, uri, httpMethod }, (err, data) => {
-        if (err) {
-          reject(err, 'An error ocurred saving a new domain');
-        } else if (data === 'OK') {
-          resolve({ id, uri, httpMethod });
-        }
-      });
+      Domain
+        .forge({ uri, http_method: httpMethod, alternate_id: alternateId })
+        .save()
+        .then(record => resolve(recordToObject(record)))
+        .catch(reject);
     });
-    return promise;
   },
-  flush() {
-    this.adapter.keys('*', function callback(err, results = []) {
-      if (results.lenth > 0) {
-        const keys = results.map(key => key.replace(this.namespace, ''));
-        this.adapter.del(keys);
-      }
+  all() {
+    return new Promise((resolve, reject) => {
+      Domain.fetchAll()
+        .then(records => resolve(records.map(recordToObject)))
+        .catch(reject);
     });
   },
 };

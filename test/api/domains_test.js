@@ -2,11 +2,14 @@ const request = require('supertest');
 const expect = require('expect.js');
 const express = require('express');
 const domainsApi = require('../../api/v1/domains');
+const testHelper = require('./../test-helper');
 
 const app = express();
 app.use('/api/v1/domains', domainsApi);
 
 describe('POST /api/v1/domains', () => {
+  afterEach(() => testHelper.resetTable('domains'));
+
   it('returns a domain with valid data', () => {
     const generatedId = Date.now();
     const payload = { id: generatedId, uri: 'https://www.google.com', httpMethod: 'GET' };
@@ -16,14 +19,14 @@ describe('POST /api/v1/domains', () => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(201)
-      .end((err, response) => {
-        expect(response).to.have.keys(['id', 'alternateId', 'uri', 'httpMethod']);
-        expect(response.id).to.be.a('number');
-        expect(response.alternateId).to.be.a('number');
-        expect(response.alternateId).to.be(payload.id);
-        expect(response.uri).to.be(payload.uri);
-        expect(response.httpMethod).to.be(payload.httpMethod);
-        expect(response.chartData).to.have.keys(['datasets', 'labels']);
+      .end((err, { body }) => {
+        expect(body).to.have.keys(['id', 'alternateId', 'uri', 'httpMethod']);
+        expect(body.id).to.be.a('number');
+        expect(body.alternateId).to.be.a('number');
+        expect(body.alternateId).to.be(payload.id);
+        expect(body.uri).to.be(payload.uri);
+        expect(body.httpMethod).to.be(payload.httpMethod);
+        expect(body.chartData).to.have.keys(['datasets', 'labels']);
       });
   });
 });

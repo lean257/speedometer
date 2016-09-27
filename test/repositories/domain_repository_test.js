@@ -1,28 +1,23 @@
-/* global describe it afterEach*/
-const assert = require('assert');
-const redis = require('redis');
+const expect = require('expect.js');
+const testHelper = require('./../test-helper');
 const domainRepository = require('../../repositories/domain-repository');
-
-// Redis setup
-const namespace = `pokedom:domain:${process.env.NODE_ENV}:`;
-const client = redis.createClient({ prefix: namespace });
-
-domainRepository.adapter = client;
-domainRepository.namespace = namespace;
 
 describe('DomainRepository', () => {
   describe('#save()', () => {
-    afterEach(() => domainRepository.flush());
+    afterEach(() => testHelper.resetTable('domains'));
 
     it('returns a domain', () => {
-      const generatedId = Date.now();
-      const domain = { id: generatedId, uri: 'https://www.google.com', httpMethod: 'GET' };
+      const domain = { uri: 'https://www.google.com', httpMethod: 'GET', alternateId: Date.now() };
       const promise = domainRepository.save(domain);
 
-      return promise.then(({ id, uri, httpMethod }) => {
-        assert.equal(id, domain.id);
-        assert.equal(uri, domain.uri);
-        assert.equal(httpMethod, domain.httpMethod);
+      return promise.then((data) => {
+        const { id, uri, httpMethod, alternateId } = data;
+        expect(data).to.have.keys(['id', 'alternateId', 'uri', 'httpMethod']);
+        expect(id).to.be.a('number');
+        expect(alternateId).to.be.a('number');
+        expect(alternateId).to.be(domain.alternateId);
+        expect(uri).to.be(domain.uri);
+        expect(httpMethod).to.be(domain.httpMethod);
       });
     });
 
@@ -31,9 +26,9 @@ describe('DomainRepository', () => {
       const promise = domainRepository.save(domain);
 
       return promise.catch(({ id, uri, httpMethod }) => {
-        assert.equal(id, undefined);
-        assert.equal(uri, domain.uri);
-        assert.equal(httpMethod, domain.httpMethod);
+        expect(id).to.be(undefined);
+        expect(uri).to.be(domain.uri);
+        expect(httpMethod).to.be(httpMethod, domain.httpMethod);
       });
     });
   });
