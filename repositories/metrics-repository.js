@@ -2,6 +2,11 @@ const influx = require('influx');
 
 const client = influx(process.env.INFLUXDB_DATABASE_URL);
 
+const groupMetricsByUri = series => series.reduce((accumulated, { uri, time, value }) => {
+  const measures = accumulated[uri] || [];
+  return Object.assign({}, accumulated, { [uri]: [...measures, { time, value }] });
+}, {});
+
 const repository = {
   saveResponseDuration({ uri, duration }) {
     return new Promise((resolve, reject) => {
@@ -14,14 +19,15 @@ const repository = {
       });
     });
   },
-  lastResponseDuration({ uri, elapsedTime = '1h' }) {
+  lastResponseDurationOfUris(uris, elapsedTime = '1h') {
     return new Promise((resolve, reject) => {
-      const query = `SELECT uri, value from response_time WHERE uri='${uri}' time > now() - ${elapsedTime}`;
-      client.queryRaw(query, (err, results) => {
+      const scapedUris = uris.map(uri => uri.replace(/\//g, '\\/')).join('|');
+      const query = `SELECT uri, value FROM response_duration WHERE uri =~ /(${scapedUris})/ AND time > now() - ${elapsedTime}`;
+      client.query(query, (err, series) => {
         if (err) {
-          reject();
+          reject(err);
         } else {
-          resolve(results);
+          resolve(groupMetricsByUri(series[0]));
         }
       });
     });
