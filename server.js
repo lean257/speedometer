@@ -11,8 +11,9 @@ const queue = kue.createQueue();
 const app = express();
 const compiler = webpack(config);
 const PORT = process.env.PORT || 3000;
+const QUEUE_POOL_SIZE = 10;
 
-queue.process('response-measurer', 10, ({ data }, done) => {
+queue.process('response-measurer', QUEUE_POOL_SIZE, ({ data }, done) => {
   metricsRecorder(data.uri).then(done).catch(done);
 });
 
