@@ -4,22 +4,27 @@ import { Line as LineChart } from 'rc-chartjs';
 class Dashboard extends React.Component {
   componentDidMount() {
     document.title = `${this.props.config.defaultTitle} | Dashboard`;
+    this.props.fetchDomains();
   }
 
   render() {
     const options = this.props.config.defaultChartOptions;
-    const domains = this.props.domains.map(domain => (
-      <div className="col col-lg-6" key={domain.id}>
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            <h3 className="panel-title">{domain.uri}</h3>
-          </div>
-          <div className="panel-body">
-            <LineChart data={domain.chartData} options={options} />
+    const domains = this.props.domains.map((domain) => {
+      let lineChart = null;
+      if (domain.chartData) {
+        lineChart = (<LineChart data={domain.chartData} options={options} />);
+      }
+      return (
+        <div className="col col-lg-6" key={domain.id}>
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title">{domain.uri}</h3>
+            </div>
+            <div className="panel-body">{lineChart}</div>
           </div>
         </div>
-      </div>
-    ));
+      );
+    });
     return (
       <div className="row">
         {domains}
@@ -38,6 +43,7 @@ Dashboard.propTypes = {
     uri: PropTypes.string.isRequired,
     httpMethod: PropTypes.string.isRequired,
   })),
+  fetchDomains: PropTypes.func,
 };
 
 export default Dashboard;
