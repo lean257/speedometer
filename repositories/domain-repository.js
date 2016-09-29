@@ -1,6 +1,7 @@
 const knexConfig = require('./../knexfile')[process.env.NODE_ENV || 'development'];
 const knex = require('knex')(knexConfig);
 const bookshelf = require('bookshelf')(knex);
+const metricsRepository = require('./metrics-repository');
 
 bookshelf.plugin('registry');
 
@@ -12,6 +13,27 @@ const recordToObject = ({ attributes }) => Object.assign({}, {
   httpMethod: attributes.http_method,
   alternateId: attributes.alternate_id,
 });
+
+const formatChartLabel = label => label.replace(/(\d{2}:\d{2})/, '$1');
+
+const generateChartLabels = (metric) => {
+  const d = new Date(metric.time);
+  const label = formatChartLabel(`${d.getHours()}:${d.getMinutes()}`);
+  return label;
+};
+
+const generateChartValues = metric => metric.value;
+
+const generateChartData = (object, metrics) => {
+  const objectMetrics = metrics[object.uri] || [];
+
+  const chartData = {
+    labels: objectMetrics.map(generateChartLabels),
+    datasets: [{ data: objectMetrics.map(generateChartValues) }],
+  };
+
+  return Object.assign({}, object, { chartData });
+};
 
 const DomainRepository = {
   save({ uri, httpMethod, alternateId }) {
@@ -31,7 +53,14 @@ const DomainRepository = {
   all() {
     return new Promise((resolve, reject) => {
       Domain.fetchAll()
-        .then(records => resolve(records.map(recordToObject)))
+        .then(records => records.map(recordToObject))
+        .then(objects => Object.assign({}, { objects, uris: objects.map(({ uri }) => uri) }))
+        .then(({ objects, uris }) => {
+          metricsRepository.lastResponseDurationOfUris(uris, '10m')
+            .then((metrics) => {
+              resolve(objects.map(object => generateChartData(object, metrics)));
+            });
+        })
         .catch(reject);
     });
   },
