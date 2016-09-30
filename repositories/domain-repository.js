@@ -14,11 +14,11 @@ const recordToObject = ({ attributes }) => Object.assign({}, {
   alternateId: attributes.alternate_id,
 });
 
-const formatChartLabel = label => label.replace(/(\d{2}:\d{2})/, '$1');
+const formatChartLabel = label => label.replace(/(\d{2}:\d{2}:\d{2})/, '$1');
 
 const generateChartLabels = (metric) => {
   const d = new Date(metric.time);
-  const label = formatChartLabel(`${d.getHours()}:${d.getMinutes()}`);
+  const label = formatChartLabel(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
   return label;
 };
 
@@ -56,7 +56,7 @@ const DomainRepository = {
         .then(records => records.map(recordToObject))
         .then(objects => Object.assign({}, { objects, uris: objects.map(({ uri }) => uri) }))
         .then(({ objects, uris }) => {
-          metricsRepository.lastResponseDurationOfUris(uris, '10m')
+          metricsRepository.lastResponseDurationOfUris(uris, '90s')
             .then((metrics) => {
               resolve(objects.map(object => generateChartData(object, metrics)));
             });

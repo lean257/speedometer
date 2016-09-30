@@ -13,8 +13,22 @@ const compiler = webpack(config);
 const PORT = process.env.PORT || 3000;
 const QUEUE_POOL_SIZE = 10;
 
+const io = require('socket.io')(4000);
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
 queue.process('response-measurer', QUEUE_POOL_SIZE, ({ data }, done) => {
-  metricsRecorder(data.uri).then(done).catch(done);
+  metricsRecorder(data.uri)
+    .then((metrics) => {
+      io.emit('uri:metrics', metrics);
+      done();
+    }).catch(done);
 });
 
 schedule.scheduleJob('* * * * *', () => {
