@@ -56,7 +56,7 @@ const DomainRepository = {
         .then(records => records.map(recordToObject))
         .then(objects => Object.assign({}, { objects, uris: objects.map(({ uri }) => uri) }))
         .then(({ objects, uris }) => {
-          metricsRepository.lastResponseDurationOfUris(uris, '90s')
+          metricsRepository.lastResponseDurationOfUris(uris, metricsRepository.DEFAULT_LIMIT)
             .then((metrics) => {
               resolve(objects.map(object => generateChartData(object, metrics)));
             });
