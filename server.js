@@ -24,9 +24,10 @@ io.on('connection', (socket) => {
 });
 
 queue.process('response-measurer', QUEUE_POOL_SIZE, ({ data }, done) => {
-  metricsRecorder(data.uri)
+  const { uri } = data;
+  metricsRecorder(uri)
     .then((metrics) => {
-      io.emit('uri:metrics', metrics);
+      io.emit('uri:metrics', { uri, metrics });
       done();
     }).catch(done);
 });
