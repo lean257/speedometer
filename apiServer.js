@@ -1,19 +1,21 @@
-const path = require('path');
 const express = require('express');
-const webpack = require('webpack');
-const config = require('./webpack.config.dev');
 const schedule = require('node-schedule');
 const kue = require('kue');
 const repository = require('./repositories/domain-repository');
 const metricsRecorder = require('./services/domain/metrics-recorder');
+const cors = require('cors');
+
+const QUEUE_POOL_SIZE = 10;
+const PORT = process.env.API_PORT || 4000;
 
 const queue = kue.createQueue();
 const app = express();
-const compiler = webpack(config);
-const PORT = process.env.PORT || 3000;
-const QUEUE_POOL_SIZE = 10;
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
-const io = require('socket.io')(4000);
+app.all('/*', cors());
+
+app.use('/api/v1', require('./api/v1'));
 
 io.on('connection', (socket) => {
   console.log('a user connected');
@@ -41,24 +43,11 @@ schedule.scheduleJob('* * * * *', () => {
     });
 });
 
-app.use('/api/v1/domains', require('./api/v1/domains'));
-
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true,
-  publicPath: config.output.publicPath,
-}));
-
-app.use(require('webpack-hot-middleware')(compiler));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.listen(PORT, 'localhost', (err) => {
+server.listen(PORT, (err) => {
   if (err) {
     console.log(err);
     return;
   }
 
-  console.log(`Listening at http://localhost:${PORT} NODE_ENV=${process.env.NODE_ENV}`);
+  console.log(`API Listening at http://localhost:${PORT} NODE_ENV=${process.env.NODE_ENV}`);
 });

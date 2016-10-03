@@ -1,10 +1,12 @@
 // add domain
-import { post, get } from 'axios';
+import axios, { post, get } from 'axios';
 
 export const ADD_DOMAIN = 'ADD_DOMAIN';
 export const RECEIVE_DOMAIN = 'RECEIVE_DOMAIN';
 export const RECEIVE_DOMAINS = 'RECEIVE_DOMAINS';
 export const RECEIVE_DOMAIN_METRICS = 'RECEIVE_DOMAIN_METRICS';
+
+axios.defaults.baseURL = 'http://localhost:4000/api/v1';
 
 function offlineAddDomain({ id, uri, httpMethod }) {
   return {
@@ -38,13 +40,13 @@ export function addDomain(id, uri, httpMethod) {
   return (dispatch) => {
     const requestData = { id, uri, httpMethod };
     dispatch(offlineAddDomain(requestData));
-    return post('/api/v1/domains', requestData)
+    return post('/domains', requestData)
       .then(responseData => dispatch(receiveDomain(responseData.data)));
   };
 }
 
 export function fetchDomains() {
-  return dispatch => get('/api/v1/domains')
+  return dispatch => get('/domains')
       .then(responseData => dispatch(receiveDomains(responseData.data)));
 }
 
