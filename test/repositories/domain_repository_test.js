@@ -1,6 +1,6 @@
 const expect = require('expect.js');
 const testHelper = require('./../test-helper');
-const domainRepository = require('../../repositories/domain-repository');
+const domainRepository = require('../../server/repositories/domain-repository');
 
 describe('DomainRepository', () => {
   describe('#save()', () => {

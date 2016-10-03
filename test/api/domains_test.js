@@ -1,7 +1,7 @@
 const request = require('supertest');
 const expect = require('expect.js');
 const express = require('express');
-const domainsApi = require('../../api/v1/domains');
+const domainsApi = require('../../server/api/v1/domains');
 const testHelper = require('./../test-helper');
 
 const app = express();

@@ -1,8 +1,8 @@
 const express = require('express');
 const schedule = require('node-schedule');
 const kue = require('kue');
-const repository = require('./repositories/domain-repository');
-const metricsRecorder = require('./services/domain/metrics-recorder');
+const repository = require('./server/repositories/domain-repository');
+const metricsRecorder = require('./server/services/domain/metrics-recorder');
 const cors = require('cors');
 
 const QUEUE_POOL_SIZE = 10;
@@ -15,7 +15,7 @@ const io = require('socket.io')(server);
 
 app.all('/*', cors());
 
-app.use('/api/v1', require('./api/v1'));
+app.use('/api/v1', require('./server/api/v1'));
 
 io.on('connection', (socket) => {
   console.log('a user connected');

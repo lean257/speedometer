@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const responseMeasurer = require('../../../services/domain/response-measurer');
+const responseMeasurer = require('../../../server/services/domain/response-measurer');
 
 describe('responseMeasurer', () => {
   describe('#run()', () => {

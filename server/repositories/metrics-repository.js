@@ -5,7 +5,7 @@ const DEFAULT_LIMIT = 10;
 
 const groupMetricsByUri = series => series.reduce((accumulated, { uri, time, value }) => {
   const measures = accumulated[uri] || [];
-  return Object.assign({}, accumulated, { [uri]: [...measures, { time, value }].reverse() });
+  return Object.assign({}, accumulated, { [uri]: [...measures, { time, value }] });
 }, {});
 
 const repository = {

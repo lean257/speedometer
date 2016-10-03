@@ -1,4 +1,4 @@
-const knexConfig = require('./../knexfile')[process.env.NODE_ENV || 'development'];
+const knexConfig = require('./../../knexfile')[process.env.NODE_ENV || 'development'];
 const knex = require('knex')(knexConfig);
 const bookshelf = require('bookshelf')(knex);
 const metricsRepository = require('./metrics-repository');
