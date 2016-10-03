@@ -8,10 +8,8 @@ const socket = io(`${location.protocol}//${location.hostname}:4000`);
 class App extends React.Component {
   constructor() {
     super();
-    socket.on('uri:metrics', () => {
-      // TODO: dispatch RECEIVE_DOMAIN_METRIC
-      // for now I am fetching all data 🙈
-      this.props.fetchDomains();
+    socket.on('uri:metrics', ({ uri, metrics }) => {
+      this.props.receiveDomainMetrics({ uri, metrics });
     });
   }
 
@@ -29,7 +27,7 @@ class App extends React.Component {
 
 App.propTypes = {
   children: PropTypes.element,
-  fetchDomains: PropTypes.func,
+  receiveDomainMetrics: PropTypes.func,
 };
 
 export default App;

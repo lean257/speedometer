@@ -4,7 +4,7 @@ import { post, get } from 'axios';
 export const ADD_DOMAIN = 'ADD_DOMAIN';
 export const RECEIVE_DOMAIN = 'RECEIVE_DOMAIN';
 export const RECEIVE_DOMAINS = 'RECEIVE_DOMAINS';
-export const RECEIVE_DOMAIN_METRIC = 'RECEIVE_DOMAIN_METRIC';
+export const RECEIVE_DOMAIN_METRICS = 'RECEIVE_DOMAIN_METRICS';
 
 function offlineAddDomain({ id, uri, httpMethod }) {
   return {
@@ -48,11 +48,10 @@ export function fetchDomains() {
       .then(responseData => dispatch(receiveDomains(responseData.data)));
 }
 
-export function receiveDomainMetric({ uri, duration, time }) {
+export function receiveDomainMetrics({ uri, metrics }) {
   return {
-    type: RECEIVE_DOMAIN_METRIC,
+    type: RECEIVE_DOMAIN_METRICS,
     uri,
-    duration,
-    time,
+    metrics,
   };
 }
