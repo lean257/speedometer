@@ -9,9 +9,10 @@
     "clean": "rimraf dist",
     "start": "NODE_ENV=development node -r dotenv/config devServer.js",
     "api": "NODE_ENV=development nodemon -r dotenv/config apiServer.js",
-    "test": "NODE_ENV=test npm run migration:migrate && NODE_ENV=test mocha --timeout 15000 --recursive --reporter spec test",
-    "watch-test": "NODE_ENV=test mocha --timeout 15000 --recursive --watch --reporter spec test",
+    "test": "jest --coverage",
+    "watch-test": "jest --verbose --watch --notify",
     "lint": "eslint '**/**.js'",
+    "migration:migrate:test": "NODE_ENV=test node -r dotenv/config node_modules/knex/bin/cli.js migrate:latest",
     "migration:gen": "node -r dotenv/config node_modules/knex/bin/cli.js migrate:make",
     "migration:migrate": "node -r dotenv/config node_modules/knex/bin/cli.js migrate:latest",
     "migration:rollback": "node -r dotenv/config node_modules/knex/bin/cli.js migrate:rollback"
@@ -71,16 +72,23 @@
     "webpack-hot-middleware": "^2.12.2"
   },
   "devDependencies": {
-    "eslint": "^3.7.0",
     "babel-eslint": "^6.1.2",
+    "babel-jest": "https://registry.npmjs.org/babel-jest/-/babel-jest-16.0.0.tgz",
+    "chai": "^3.5.0",
+    "dirty-chai": "^1.2.2",
+    "eslint": "^3.7.0",
     "eslint-config-airbnb": "^11.2.0",
     "eslint-plugin-babel": "^3.3.0",
+    "eslint-plugin-chai-expect": "^1.1.1",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
-    "eslint-plugin-mocha": "^4.5.1",
     "eslint-plugin-react": "^6.3.0",
-    "expect.js": "^0.3.1",
-    "mocha": "^3.1.0",
+    "jest": "^16.0.0",
+    "react-test-renderer": "^15.3.2",
     "supertest": "^2.0.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "testRegex": "/__tests__/.*\\.spec\\.js$"
   }
 }

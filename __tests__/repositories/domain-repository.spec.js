@@ -1,23 +1,29 @@
-const expect = require('expect.js');
+const chai = require('chai');
 const testHelper = require('./../test-helper');
 const domainRepository = require('../../server/repositories/domain-repository');
+
+chai.use(require('dirty-chai'));
+
+const expect = chai.expect;
 
 describe('DomainRepository', () => {
   describe('#save()', () => {
     afterEach(() => testHelper.resetTable('domains'));
 
-    it('returns a domain', () => {
+    it('returns a domain', (done) => {
       const domain = { uri: 'https://www.google.com', httpMethod: 'GET', alternateId: Date.now() };
       const promise = domainRepository.save(domain);
 
-      return promise.then((data) => {
+      promise.then((data) => {
         const { id, uri, httpMethod, alternateId } = data;
-        expect(data).to.have.keys(['id', 'alternateId', 'uri', 'httpMethod']);
+
+        expect(data).to.have.all.keys('id', 'alternateId', 'uri', 'httpMethod');
         expect(id).to.be.a('number');
         expect(alternateId).to.be.a('number');
-        expect(alternateId).to.be(domain.alternateId);
-        expect(uri).to.be(domain.uri);
-        expect(httpMethod).to.be(domain.httpMethod);
+        expect(alternateId).to.equal(domain.alternateId);
+        expect(uri).to.equal(domain.uri);
+        expect(httpMethod).to.equal(domain.httpMethod);
+        done();
       });
     });
 
@@ -26,9 +32,9 @@ describe('DomainRepository', () => {
       const promise = domainRepository.save(domain);
 
       return promise.catch(({ id, uri, httpMethod }) => {
-        expect(id).to.be(undefined);
-        expect(uri).to.be(domain.uri);
-        expect(httpMethod).to.be(httpMethod, domain.httpMethod);
+        expect(id).to.be.undefined();
+        expect(uri).to.equal(domain.uri);
+        expect(httpMethod).to.equal(httpMethod, domain.httpMethod);
       });
     });
   });
