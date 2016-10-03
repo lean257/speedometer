@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
   render() {
     const options = this.props.config.defaultChartOptions;
     const domains = this.props.domains.map((domain) => {
-      const metrics = domain.metrics;
+      const metrics = domain.metrics.reverse();
       const chartData = {
         labels: metrics.map(generateChartLabels),
         datasets: [{ data: metrics.map(generateChartValues) }],
