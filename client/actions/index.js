@@ -4,6 +4,7 @@ import { post, get } from 'axios';
 export const ADD_DOMAIN = 'ADD_DOMAIN';
 export const RECEIVE_DOMAIN = 'RECEIVE_DOMAIN';
 export const RECEIVE_DOMAINS = 'RECEIVE_DOMAINS';
+export const RECEIVE_DOMAIN_METRICS = 'RECEIVE_DOMAIN_METRICS';
 
 function offlineAddDomain({ id, uri, httpMethod }) {
   return {
@@ -11,21 +12,18 @@ function offlineAddDomain({ id, uri, httpMethod }) {
     id,
     uri,
     httpMethod,
-    chartData: {
-      labels: [],
-      datasets: [{ data: [] }],
-    },
+    metrics: [],
   };
 }
 
-function receiveDomain({ id, uri, httpMethod, alternateId, chartData }) {
+function receiveDomain({ id, uri, httpMethod, alternateId, metrics }) {
   return {
     type: RECEIVE_DOMAIN,
     id,
     uri,
     httpMethod,
     alternateId,
-    chartData,
+    metrics,
   };
 }
 
@@ -48,4 +46,12 @@ export function addDomain(id, uri, httpMethod) {
 export function fetchDomains() {
   return dispatch => get('/api/v1/domains')
       .then(responseData => dispatch(receiveDomains(responseData.data)));
+}
+
+export function receiveDomainMetrics({ uri, metrics }) {
+  return {
+    type: RECEIVE_DOMAIN_METRICS,
+    uri,
+    metrics,
+  };
 }

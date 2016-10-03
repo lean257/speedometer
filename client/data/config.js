@@ -3,12 +3,7 @@ const config = {
   defaultChartOptions: {
     responsive: true,
     datasetFill: false,
-    scaleBeginAtZero: true,
-    scaleStartValue: 0,
-    scaleIntegersOnly: true,
-    scaleStepWidth: 1000,
-    scaleOverride: true,
-    scaleSteps: 10,
+    scaleIntegersOnly: false,
     scaleLabel: '<%= value %> ms',
     tooltipTemplate: '<%if (label){%><%=label%>: <%}%><%= value %> ms',
   },

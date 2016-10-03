@@ -16,7 +16,7 @@
     "strict": [2, "never"],
     "babel/generator-star-spacing": 1,
     "new-cap": [2, {
-      capIsNewExceptions: ["Router"]
+      capIsNewExceptions: ["Router", "Server"]
     }],
     "babel/object-shorthand": 1,
     # "babel/arrow-parens": 1, Conflict with airbnb eslint
