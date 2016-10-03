@@ -12,21 +12,18 @@ function offlineAddDomain({ id, uri, httpMethod }) {
     id,
     uri,
     httpMethod,
-    chartData: {
-      labels: [],
-      datasets: [{ data: [] }],
-    },
+    metrics: [],
   };
 }
 
-function receiveDomain({ id, uri, httpMethod, alternateId, chartData }) {
+function receiveDomain({ id, uri, httpMethod, alternateId, metrics }) {
   return {
     type: RECEIVE_DOMAIN,
     id,
     uri,
     httpMethod,
     alternateId,
-    chartData,
+    metrics,
   };
 }
 

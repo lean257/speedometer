@@ -26,7 +26,7 @@ describe('POST /api/v1/domains', () => {
         expect(body.alternateId).to.be(payload.id);
         expect(body.uri).to.be(payload.uri);
         expect(body.httpMethod).to.be(payload.httpMethod);
-        expect(body.chartData).to.have.keys(['datasets', 'labels']);
+        expect(body.metrics).to.be.a('array');
       });
   });
 });

@@ -3,8 +3,8 @@ import { ADD_DOMAIN, RECEIVE_DOMAIN, RECEIVE_DOMAINS } from '../actions';
 function domains(state = [], action) {
   switch (action.type) {
     case ADD_DOMAIN: {
-      const { id, uri, httpMethod, chartData } = action;
-      return [{ id, uri, httpMethod, chartData }, ...state];
+      const { id, uri, httpMethod, metrics } = action;
+      return [{ id, uri, httpMethod, metrics }, ...state];
     }
     case RECEIVE_DOMAINS: {
       return action.domains;

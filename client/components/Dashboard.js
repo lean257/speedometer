@@ -1,6 +1,16 @@
 import React, { PropTypes } from 'react';
 import { Line as LineChart } from 'rc-chartjs';
 
+const formatChartLabel = label => label.replace(/(\d{2}:\d{2}:\d{2})/, '$1');
+
+const generateChartLabels = (metric) => {
+  const d = new Date(metric.time);
+  const label = formatChartLabel(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
+  return label;
+};
+
+const generateChartValues = metric => metric.value;
+
 class Dashboard extends React.Component {
   componentDidMount() {
     document.title = `${this.props.config.defaultTitle} | Dashboard`;
@@ -10,10 +20,12 @@ class Dashboard extends React.Component {
   render() {
     const options = this.props.config.defaultChartOptions;
     const domains = this.props.domains.map((domain) => {
-      let lineChart = null;
-      if (domain.chartData) {
-        lineChart = (<LineChart data={domain.chartData} options={options} />);
-      }
+      const metrics = domain.metrics;
+      const chartData = {
+        labels: metrics.map(generateChartLabels),
+        datasets: [{ data: metrics.map(generateChartValues) }],
+      };
+      const lineChart = (<LineChart data={chartData} options={options} />);
       return (
         <div className="col col-lg-6" key={domain.id}>
           <div className="panel panel-default">
@@ -42,6 +54,10 @@ Dashboard.propTypes = {
     id: PropTypes.number.isRequired,
     uri: PropTypes.string.isRequired,
     httpMethod: PropTypes.string.isRequired,
+    metrics: PropTypes.arrayOf(PropTypes.shape({
+      value: PropTypes.number,
+      time: PropTypes.string,
+    })),
   })),
   fetchDomains: PropTypes.func,
 };

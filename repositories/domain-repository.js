@@ -14,25 +14,9 @@ const recordToObject = ({ attributes }) => Object.assign({}, {
   alternateId: attributes.alternate_id,
 });
 
-const formatChartLabel = label => label.replace(/(\d{2}:\d{2}:\d{2})/, '$1');
-
-const generateChartLabels = (metric) => {
-  const d = new Date(metric.time);
-  const label = formatChartLabel(`${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`);
-  return label;
-};
-
-const generateChartValues = metric => metric.value;
-
-const generateChartData = (object, metrics) => {
-  const objectMetrics = metrics[object.uri] || [];
-
-  const chartData = {
-    labels: objectMetrics.map(generateChartLabels),
-    datasets: [{ data: objectMetrics.map(generateChartValues) }],
-  };
-
-  return Object.assign({}, object, { chartData });
+const mergeMetrics = (object, metrics) => {
+  const uriMetrics = metrics[object.uri] || [];
+  return Object.assign({}, object, { metrics: uriMetrics });
 };
 
 const DomainRepository = {
@@ -58,7 +42,7 @@ const DomainRepository = {
         .then(({ objects, uris }) => {
           metricsRepository.lastResponseDurationOfUris(uris, metricsRepository.DEFAULT_LIMIT)
             .then((metrics) => {
-              resolve(objects.map(object => generateChartData(object, metrics)));
+              resolve(objects.map(object => mergeMetrics(object, metrics)));
             });
         })
         .catch(reject);

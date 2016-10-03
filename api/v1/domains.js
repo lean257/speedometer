@@ -13,11 +13,11 @@ router.route('/')
   })
   .post((request, response) => {
     const { id, uri, httpMethod } = request.body;
-    const chartData = { labels: [], datasets: [{ data: [] }] };
+    const metrics = [];
 
     repository.save({ uri, httpMethod, alternateId: id })
       .then((data) => {
-        response.status(201).json(Object.assign({}, data, { chartData }));
+        response.status(201).json(Object.assign({}, data, { metrics }));
       })
       .catch((err) => {
         console.log(err);
