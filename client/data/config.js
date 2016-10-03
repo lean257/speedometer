@@ -1,6 +1,7 @@
 const config = {
   defaultTitle: 'PokeDOM',
   defaultChartOptions: {
+    animationEasing: 'linear',
     responsive: true,
     datasetFill: false,
     scaleIntegersOnly: false,
