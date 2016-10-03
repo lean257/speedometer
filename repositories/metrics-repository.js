@@ -16,7 +16,7 @@ const repository = {
         if (err) {
           reject(err);
         } else {
-          resolve({ [uri]: { value: duration, time: Date.now() } });
+          resolve(repository.lastResponseDurationOfUris([uri]));
         }
       });
     });
