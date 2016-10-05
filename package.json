@@ -89,6 +89,7 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
+    "setupTestFrameworkScriptFile": "<rootDir>/__tests__/testSetupFile.js",
     "testRegex": "/__tests__/.*\\.spec\\.js$"
   }
 }
