@@ -9,7 +9,7 @@
     "clean": "rimraf dist",
     "start": "NODE_ENV=development node -r dotenv/config devServer.js",
     "api": "NODE_ENV=development nodemon -r dotenv/config apiServer.js",
-    "test": "jest --coverage",
+    "test": "jest --coverage --forceExit",
     "watch-test": "jest --verbose --watch --notify",
     "lint": "eslint '**/**.js'",
     "migration:migrate:test": "NODE_ENV=test node -r dotenv/config node_modules/knex/bin/cli.js migrate:latest",
@@ -83,7 +83,7 @@
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
-    "jest": "^16.0.0",
+    "jest-cli": "file:vendor/node_modules/jest-cli-16.0.0.tgz",
     "react-test-renderer": "^15.3.2",
     "supertest": "^2.0.0"
   },
