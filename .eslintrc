@@ -6,7 +6,7 @@
   "env": {
     "browser": true,
     "node": true,
-    "mocha": true
+    "jest": true
   },
   "parser": "babel-eslint",
   "extends": "airbnb",
@@ -26,12 +26,13 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/react-in-jsx-scope": 2,
     "react/no-unused-prop-types": [2, { skipShapeProps: true }],
-    "mocha/no-exclusive-tests": 2,
-    "import/no-extraneous-dependencies": [2, { "devDependencies": ["**/**_test.js"] }],
+    "import/no-extraneous-dependencies": [2, { "devDependencies": ["**/**.spec.js"] }],
+    "chai-expect/missing-assertion": 2,
+    "chai-expect/terminating-properties": 0,
   },
   "plugins": [
     "babel",
     "react",
-    "mocha"
+    "chai-expect"
   ]
 }
