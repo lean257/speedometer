@@ -12,10 +12,10 @@ router.route('/')
     repository.all().then(collection => response.status(200).json(collection));
   })
   .post((request, response) => {
-    const { id, uri, httpMethod } = request.body;
+    const { uri, httpMethod } = request.body;
     const metrics = [];
 
-    repository.save({ uri, httpMethod, alternateId: id })
+    repository.save({ uri, httpMethod })
       .then((data) => {
         response.status(201).json(Object.assign({}, data, { metrics }));
       })

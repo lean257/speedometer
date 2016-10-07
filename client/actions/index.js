@@ -18,13 +18,12 @@ function offlineAddDomain({ id, uri, httpMethod }) {
   };
 }
 
-function receiveDomain({ id, uri, httpMethod, alternateId, metrics }) {
+function receiveDomain({ id, uri, httpMethod, metrics }) {
   return {
     type: RECEIVE_DOMAIN,
     id,
     uri,
     httpMethod,
-    alternateId,
     metrics,
   };
 }

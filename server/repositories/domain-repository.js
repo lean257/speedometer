@@ -11,7 +11,6 @@ const recordToObject = ({ attributes }) => Object.assign({}, {
   id: attributes.id,
   uri: attributes.uri,
   httpMethod: attributes.http_method,
-  alternateId: attributes.alternate_id,
 });
 
 const mergeMetrics = (object, metrics) => {
@@ -20,15 +19,15 @@ const mergeMetrics = (object, metrics) => {
 };
 
 const DomainRepository = {
-  save({ uri, httpMethod, alternateId }) {
+  save({ uri, httpMethod }) {
     return new Promise((resolve, reject) => {
-      if (!alternateId) {
-        reject({ uri, httpMethod, alternateId });
+      if (!uri) {
+        reject({ uri, httpMethod });
         return;
       }
 
       Domain
-        .forge({ uri, http_method: httpMethod, alternate_id: alternateId })
+        .forge({ uri, http_method: httpMethod })
         .save()
         .then(record => resolve(recordToObject(record)))
         .catch(reject);

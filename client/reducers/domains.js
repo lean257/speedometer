@@ -10,7 +10,12 @@ function domains(state = [], action) {
       return action.domains;
     }
     case RECEIVE_DOMAIN: {
-      const index = state.findIndex(domain => domain.id === action.alternateId);
+      const index = state.findIndex(domain => domain.uri === action.uri);
+
+      if (index === -1) {
+        const { id, uri, httpMethod, metrics } = action;
+        return [{ id, uri, httpMethod, metrics }, ...state];
+      }
 
       return [
         ...state.slice(0, index), // left parth
