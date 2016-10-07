@@ -7,7 +7,20 @@ function domains(state = [], action) {
       return [{ id, uri, httpMethod, metrics }, ...state];
     }
     case RECEIVE_DOMAINS: {
-      return action.domains;
+      return [...action.domains, ...state].reduce((accumulated, domain) => {
+        const index = accumulated.findIndex(d => d.uri === domain.uri);
+
+        if (index === -1) {
+          return [...accumulated, domain];
+        }
+
+        return [
+          // from the start to the one we want to deleted
+          ...accumulated.slice(0, index),
+          // Often the deleted one, to the end
+          ...accumulated.slice(index + 1),
+        ];
+      }, []);
     }
     case RECEIVE_DOMAIN: {
       const index = state.findIndex(domain => domain.uri === action.uri);
