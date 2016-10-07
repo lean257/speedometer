@@ -3394,7 +3394,7 @@
     },
     "react-dom": {
       "version": "15.3.2",
-      "from": "react-dom@>=15.3.2 <16.0.0",
+      "from": "https://registry.npmjs.org/react-dom/-/react-dom-15.3.2.tgz",
       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-15.3.2.tgz"
     },
     "react-proxy": {
@@ -3416,11 +3416,6 @@
       "version": "4.0.6",
       "from": "react-router-redux@>=4.0.6 <5.0.0",
       "resolved": "https://registry.npmjs.org/react-router-redux/-/react-router-redux-4.0.6.tgz"
-    },
-    "react-test-renderer": {
-      "version": "15.3.2",
-      "from": "react-test-renderer@latest",
-      "resolved": "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-15.3.2.tgz"
     },
     "react-transform-catch-errors": {
       "version": "1.0.2",
