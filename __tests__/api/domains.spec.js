@@ -20,10 +20,8 @@ describe('POST /api/v1/domains', () => {
       .expect('Content-Type', /json/)
       .expect(201)
       .end((err, { body }) => {
-        expect(body).to.have.all.keys('id', 'alternateId', 'uri', 'httpMethod', 'metrics');
+        expect(body).to.have.all.keys('id', 'uri', 'httpMethod', 'metrics');
         expect(body.id).to.be.a('number');
-        expect(body.alternateId).to.be.a('number');
-        expect(body.alternateId).to.equal(payload.id);
         expect(body.uri).to.equal(payload.uri);
         expect(body.httpMethod).to.equal(payload.httpMethod);
         expect(body.metrics).to.be.a('array');
