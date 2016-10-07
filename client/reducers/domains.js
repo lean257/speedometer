@@ -26,6 +26,11 @@ function domains(state = [], action) {
     case RECEIVE_DOMAIN_METRICS: {
       const { uri, metrics } = action;
       const index = state.findIndex(domain => domain.uri === uri);
+
+      if (index === -1) {
+        return state;
+      }
+
       return [
         ...state.slice(0, index), // left parth
         { ...state[index], metrics: metrics[uri] },
