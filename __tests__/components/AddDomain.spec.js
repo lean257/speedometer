@@ -1,10 +1,74 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { shallow, mount } from 'enzyme';
+import sinon from 'sinon';
+import chai from 'chai';
 import AddDomain from '../../client/components/AddDomain';
 
-test('Matches with the snapshot', () => {
-  const props = { config: { defaultTitle: 'PokeDOMTest' } };
-  const component = renderer.create(<AddDomain {...props} />);
-  const tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+chai.use(require('dirty-chai'));
+
+const expect = chai.expect;
+
+jest.mock('react-router');
+
+describe('<AddDomain />', () => {
+  const defaultConfig = { config: { defaultTitle: 'PokeDOMTest' } };
+  const addDomain = sinon.spy();
+  const props = Object.assign(defaultConfig, { addDomain });
+
+  describe('render', () => {
+    const component = shallow(<AddDomain {...props} />);
+
+    it('contains a form', () => {
+      expect(component.find('form')).to.have.length(1);
+    });
+
+    it('contains an input for the uri', () => {
+      expect(component.find('input[type="text"]')).to.have.length(1);
+    });
+
+    it('contains an input for the submit', () => {
+      expect(component.find('input[type="submit"]')).to.have.length(1);
+    });
+  });
+
+  describe('componentDidMount', () => {
+    sinon.spy(AddDomain.prototype, 'componentDidMount');
+    mount(<AddDomain {...props} />);
+
+    it('should called once', () => {
+      expect(AddDomain.prototype.componentDidMount.calledOnce).to.be.true();
+    });
+  });
+
+  describe('onChange', () => {
+    const component = shallow(<AddDomain {...props} />);
+    const target = { value: 'http://www.google.com' };
+    const changeEvent = { preventDefault: sinon.spy(), target };
+
+    component.find('input[type="text"]').simulate('change', changeEvent);
+
+    it('should call preventDefault', () => {
+      expect(changeEvent.preventDefault.calledOnce).to.be.true();
+    });
+
+    it('should add uri value to the state', () => {
+      expect(component.state('uri')).to.equal(target.value);
+    });
+  });
+
+  describe('onSubmit', () => {
+    const component = shallow(<AddDomain {...props} />);
+    const submitEvent = { preventDefault: sinon.spy() };
+
+    component.setState({ uri: 'https://www.google.com' });
+    component.simulate('submit', submitEvent);
+
+    it('should call preventDefault', () => {
+      expect(submitEvent.preventDefault.calledOnce).to.be.true();
+    });
+
+    it('should call addDomain', () => {
+      expect(addDomain.calledOnce).to.be.true();
+    });
+  });
 });

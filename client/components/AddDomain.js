@@ -4,22 +4,27 @@ import { browserHistory } from 'react-router';
 class AddDomain extends React.Component {
   constructor() {
     super();
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
   componentDidMount() {
     document.title = `${this.props.config.defaultTitle} | Add a new Domain`;
   }
-  handleSubmit(event) {
+  onSubmit(event) {
     event.preventDefault();
-    this.props.addDomain(Date.now(), this.uri.value, 'GET');
+    this.props.addDomain(Date.now(), this.state.uri, 'GET');
     browserHistory.push('/');
+  }
+  onChange(event) {
+    event.preventDefault();
+    this.setState({ uri: event.target.value });
   }
   render() {
     return (
-      <form autoComplete="off" onSubmit={this.handleSubmit}>
+      <form autoComplete="off" onSubmit={this.onSubmit}>
         <h2 className="caption">Add a new domain to watch</h2>
         <div className="group">
-          <input type="text" placeholder="https://www.google.com/" ref={(c) => { this.uri = c; }} />
+          <input type="text" placeholder="https://www.google.com/" onChange={this.onChange} />
           <label htmlFor="uri">URI</label>
         </div>
         <div className="group">
