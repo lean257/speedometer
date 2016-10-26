@@ -1,4 +1,4 @@
-const responseMeasurer = require('./response-measurer');
+const responseMeasurer = require('./response-time-meter');
 const saveResponseDuration = require('../../repositories/metrics-repository').saveResponseDuration;
 
 const metricsRecorder = uri => new Promise((resolve, reject) => {

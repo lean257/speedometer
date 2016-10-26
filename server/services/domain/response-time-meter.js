@@ -1,6 +1,6 @@
 const request = require('request');
 
-const responseMeasurer = uri => new Promise((resolve, reject) => {
+const responseTimeMeter = uri => new Promise((resolve, reject) => {
   request(uri, { time: true, timeout: 10000 }, (error, response) => {
     if (error) {
       reject({ status: 'error', code: error.code, errno: error.errno });
@@ -13,4 +13,4 @@ const responseMeasurer = uri => new Promise((resolve, reject) => {
 });
 
 
-module.exports = responseMeasurer;
+module.exports = responseTimeMeter;

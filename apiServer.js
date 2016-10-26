@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
   });
 });
 
-queue.process('response-measurer', QUEUE_POOL_SIZE, ({ data }, done) => {
+queue.process('response-time-meter', QUEUE_POOL_SIZE, ({ data }, done) => {
   const { uri } = data;
   metricsRecorder(uri)
     .then((metrics) => {
@@ -38,7 +38,7 @@ schedule.scheduleJob('* * * * *', () => {
   repository.all()
     .then((collection) => {
       collection.forEach(domain =>
-        queue.create('response-measurer', domain)
+        queue.create('response-time-meter', domain)
           .removeOnComplete(true).save());
     });
 });

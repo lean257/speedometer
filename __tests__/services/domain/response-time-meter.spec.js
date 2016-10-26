@@ -1,14 +1,14 @@
 const chai = require('chai');
-const responseMeasurer = require('../../../server/services/domain/response-measurer');
+const responseTimeMeter = require('../../../server/services/domain/response-time-meter');
 
 chai.use(require('dirty-chai'));
 
 const expect = chai.expect;
 
-describe('responseMeasurer', () => {
+describe('responseTimeMeter', () => {
   describe('#run()', () => {
     it('returns ok status with a valid host', () =>
-      responseMeasurer('http://www.kommit.co')
+      responseTimeMeter('http://www.kommit.co')
         .then((data) => {
           expect(data).to.have.all.keys('status', 'duration', 'statusCode');
           expect(data.status).to.be.ok();
@@ -22,7 +22,7 @@ describe('responseMeasurer', () => {
     );
 
     it('returns error status with an invalid path', () =>
-      responseMeasurer('http://www.kommit.co/foo')
+      responseTimeMeter('http://www.kommit.co/foo')
         .catch((data) => {
           expect(data).to.have.keys('status', 'statusCode');
           expect(data.status).to.equal('error');
