@@ -10,11 +10,11 @@ import config from './data/config';
 const loggerMiddleware = createLogger();
 
 // create an object for the default data
-const defaultSate = { config, domains: [] };
+const defaultSatate = { config, domains: [] };
 
 const store = createStore(
   rootReducer,
-  defaultSate,
+  defaultSatate,
   applyMiddleware(thunk, loggerMiddleware)
 );
 
