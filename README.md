@@ -1,5 +1,7 @@
 # PokeDOM
 
+[![Build Status](https://travis-ci.org/pastuxso/pokedom.svg?branch=master)](https://travis-ci.org/pastuxso/pokedom)
+
 Simple application to monitoring websites only for educational purpose.
 
 ## Features
