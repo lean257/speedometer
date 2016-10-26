@@ -1,10 +1,13 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { shallowToJson } from 'enzyme-to-json';
+import path from 'path';
 import sinon from 'sinon';
 import chai from 'chai';
 import AddDomain from '../../client/components/AddDomain';
 
 chai.use(require('dirty-chai'));
+chai.use(require('chai-jest-snapshot'));
 
 const expect = chai.expect;
 
@@ -17,6 +20,12 @@ describe('<AddDomain />', () => {
 
   describe('render', () => {
     const component = shallow(<AddDomain {...props} />);
+
+    it('match snapshot', () => {
+      const snapshotFileName = path.join(__dirname, 'AddDomain.spec.js.snap');
+      const snapshotName = 'AddDomain renders correctly';
+      expect(shallowToJson(component)).to.matchSnapshot(snapshotFileName, snapshotName);
+    });
 
     it('contains a form', () => {
       expect(component.find('form')).to.have.length(1);
