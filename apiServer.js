@@ -19,10 +19,10 @@ app.all('/*', cors());
 app.use('/api/v1', require('./server/api/v1'));
 
 io.on('connection', (socket) => {
-  log.info('a user connected');
+  log.info('A socket client connected');
 
   socket.on('disconnect', () => {
-    log.info('user disconnected');
+    log.info('A socket client disconnected');
   });
 });
 
@@ -30,6 +30,7 @@ queue.process('response-time-meter', QUEUE_POOL_SIZE, ({ data }, done) => {
   const { uri } = data;
   metricsRecorder(uri)
     .then((metrics) => {
+      log.info(`Emitting metrics of uri: ${uri}`);
       io.emit('uri:metrics', { uri, metrics });
       done();
     }).catch(done);
