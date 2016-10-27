@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const repository = require('../../repositories/domain-repository');
+const log = require('../../../logger')('api/v1/domains');
 
 const router = express.Router();
 
@@ -17,10 +18,11 @@ router.route('/')
 
     repository.save({ uri, httpMethod })
       .then((data) => {
+        log.info(`Domain ${data.uri} was created successfully`);
         response.status(201).json(Object.assign({}, data, { metrics }));
       })
       .catch((err) => {
-        console.log(err);
+        log.error({ err });
         response.sendStatus(500);
       });
   });

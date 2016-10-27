@@ -4,6 +4,7 @@ const kue = require('kue');
 const repository = require('./server/repositories/domain-repository');
 const metricsRecorder = require('./server/services/domain/metrics-recorder');
 const cors = require('cors');
+const log = require('./logger')('API');
 
 const QUEUE_POOL_SIZE = 10;
 const PORT = process.env.API_PORT || 4000;
@@ -18,10 +19,10 @@ app.all('/*', cors());
 app.use('/api/v1', require('./server/api/v1'));
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  log.info('a user connected');
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    log.info('user disconnected');
   });
 });
 
@@ -45,9 +46,8 @@ schedule.scheduleJob('* * * * *', () => {
 
 server.listen(PORT, (err) => {
   if (err) {
-    console.log(err);
     return;
   }
 
-  console.log(`API Listening at http://localhost:${PORT} NODE_ENV=${process.env.NODE_ENV}`);
+  log.info(`API Listening at http://localhost:${PORT} NODE_ENV=${process.env.NODE_ENV}`);
 });

@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
 const config = require('./webpack.config.dev');
+const log = require('./logger')('React');
 
 const app = express();
 const compiler = webpack(config);
@@ -20,9 +21,8 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, 'localhost', (err) => {
   if (err) {
-    console.log(err);
     return;
   }
 
-  console.log(`DevServer Listening at http://localhost:${PORT} NODE_ENV=${process.env.NODE_ENV}`);
+  log.info(`DevServer Listening at http://localhost:${PORT} NODE_ENV=${process.env.NODE_ENV}`);
 });
