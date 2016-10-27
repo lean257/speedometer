@@ -19,5 +19,5 @@ before_script:
 
 script:
   - npm run migration:migrate:test
-  - npm test -- -u
+  - npm test -- -u --forceExit --verbose
   - npm run lint
