@@ -24,7 +24,8 @@ describe('<AddDomain />', () => {
     it('match snapshot', () => {
       const snapshotFileName = path.join(__dirname, '__snapshots__/AddDomain.spec.js.snap');
       const snapshotName = 'AddDomain renders correctly';
-      expect(shallowToJson(component)).to.matchSnapshot(snapshotFileName, snapshotName);
+      const tree = shallowToJson(component);
+      expect(tree).to.matchSnapshot(snapshotFileName, snapshotName);
     });
 
     it('contains a form', () => {
