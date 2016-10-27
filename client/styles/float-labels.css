@@ -24,6 +24,7 @@ form {
   padding:50px;
   background: #FDFFFC;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.41), 0 0 1px 20px rgba(0, 0, 0, 0.08);
+  margin: 0 auto;
 }
 
 form > h2.caption {
