@@ -18,11 +18,23 @@ Simple application to monitoring websites only for educational purpose.
 ### Requirements
 
   - InfluxDB
+  - PostgreSql
+  - Redis
 
 ### Development
 
   - Copy sample of environment variables `cp .env.sample .env`
-  - Running development server `node server.js`
+  - create your PostgreSql database `createdb pokedom_dev`
+  - create your InfluxDB database
+    ```
+    $ influx
+    Connected to http://localhost:8086 version 1.0.x
+    InfluxDB shell 1.0.x
+    > CREATE DATABASE pokedom
+    >
+    ```
+  - Running client server `npm start`
+  - Running api server `npm run api`
   - Running tests `npm tests`
   - Running eslint `npm run lint`
   - Running tests watching file changes `npm run watch-test`
