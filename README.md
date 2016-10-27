@@ -26,6 +26,7 @@ Simple application to monitoring websites only for educational purpose.
   - Copy sample of environment variables `cp .env.sample .env`
   - create your PostgreSql database `createdb pokedom_dev`
   - create your InfluxDB database
+
     ```
     $ influx
     Connected to http://localhost:8086 version 1.0.x
@@ -33,6 +34,7 @@ Simple application to monitoring websites only for educational purpose.
     > CREATE DATABASE pokedom
     >
     ```
+
   - Running client server `npm start`
   - Running api server `npm run api`
   - Running tests `npm tests`
