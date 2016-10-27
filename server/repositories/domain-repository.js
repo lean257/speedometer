@@ -29,7 +29,14 @@ const DomainRepository = {
       Domain
         .forge({ uri, http_method: httpMethod })
         .save()
-        .then(record => resolve(recordToObject(record)))
+        .then(record => recordToObject(record))
+        .then((object) => {
+          const uris = [object.uri];
+          return metricsRepository.lastResponseDurationOfUris(uris, metricsRepository.DEFAULT_LIMIT)
+            .then((metrics) => {
+              resolve(mergeMetrics(object, metrics));
+            });
+        })
         .catch(reject);
     });
   },

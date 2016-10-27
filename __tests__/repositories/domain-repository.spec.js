@@ -10,18 +10,17 @@ describe('DomainRepository', () => {
   describe('#save()', () => {
     afterEach(() => testHelper.resetTable('domains'));
 
-    it('returns a domain', (done) => {
+    it('returns a domain', () => {
       const domain = { uri: 'https://www.google.com', httpMethod: 'GET' };
       const promise = domainRepository.save(domain);
 
-      promise.then((data) => {
-        const { id, uri, httpMethod } = data;
-
-        expect(data).to.have.all.keys('id', 'uri', 'httpMethod');
+      return promise.then((data) => {
+        const { id, uri, httpMethod, metrics } = data;
+        expect(data).to.have.all.keys('id', 'uri', 'httpMethod', 'metrics');
         expect(id).to.be.a('number');
         expect(uri).to.equal(domain.uri);
         expect(httpMethod).to.equal(domain.httpMethod);
-        done();
+        expect(metrics).to.be.a('array');
       });
     });
 

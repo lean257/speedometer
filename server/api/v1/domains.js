@@ -14,15 +14,14 @@ router.route('/')
   })
   .post((request, response) => {
     const { uri, httpMethod } = request.body;
-    const metrics = [];
 
     repository.save({ uri, httpMethod })
       .then((data) => {
         log.info(`Domain ${data.uri} was created successfully`);
-        response.status(201).json(Object.assign({}, data, { metrics }));
+        response.status(201).json(data);
       })
       .catch((err) => {
-        log.error({ err });
+        log.error(err);
         response.sendStatus(500);
       });
   });

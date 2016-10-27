@@ -33,7 +33,7 @@ function domains(state = [], action) {
 
       return [
         ...state.slice(0, index), // left parth
-        { ...state[index], id: action.id },
+        { ...state[index], id: action.id, metrics: action.metrics },
         ...state.slice(index + 1), // right part
       ];
     }
