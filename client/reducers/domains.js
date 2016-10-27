@@ -17,6 +17,7 @@ function domains(state = [], action) {
         return [
           // from the start to the one we want to deleted
           ...accumulated.slice(0, index),
+          domain,
           // Often the deleted one, to the end
           ...accumulated.slice(index + 1),
         ];
