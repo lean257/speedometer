@@ -8,6 +8,10 @@
     "node": true,
     "jest": true
   },
+  "globals": {
+    "dbTestTools": false,
+    "jestExpect": false
+  },
   "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
@@ -26,7 +30,7 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/react-in-jsx-scope": 2,
     "react/no-unused-prop-types": [2, { skipShapeProps: true }],
-    "import/no-extraneous-dependencies": [2, { "devDependencies": ["**/**.spec.js"] }],
+    "import/no-extraneous-dependencies": [2, { "devDependencies": ["**/**.spec.js", "**/testSetupFile.js"] }],
     "chai-expect/missing-assertion": 2,
     "chai-expect/terminating-properties": 0,
   },

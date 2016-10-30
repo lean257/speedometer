@@ -1,9 +1,4 @@
-const chai = require('chai');
 const responseTimeMeter = require('../../../server/services/domain/response-time-meter');
-
-chai.use(require('dirty-chai'));
-
-const expect = chai.expect;
 
 describe('responseTimeMeter', () => {
   describe('#run()', () => {

@@ -1,15 +1,8 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
-import path from 'path';
 import sinon from 'sinon';
-import chai from 'chai';
 import AddDomain from '../../client/components/AddDomain';
-
-chai.use(require('dirty-chai'));
-chai.use(require('chai-jest-snapshot'));
-
-const expect = chai.expect;
 
 jest.mock('react-router');
 
@@ -22,10 +15,8 @@ describe('<AddDomain />', () => {
     const component = shallow(<AddDomain {...props} />);
 
     it('match snapshot', () => {
-      const snapshotFileName = path.join(__dirname, '__snapshots__/AddDomain.spec.js.snap');
-      const snapshotName = 'AddDomain renders correctly';
       const tree = shallowToJson(component);
-      expect(tree).to.matchSnapshot(snapshotFileName, snapshotName);
+      jestExpect(tree).toMatchSnapshot();
     });
 
     it('contains a form', () => {

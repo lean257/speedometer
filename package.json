@@ -93,6 +93,7 @@
   "jest": {
     "testEnvironment": "jsdom",
     "setupTestFrameworkScriptFile": "<rootDir>/__tests__/testSetupFile.js",
+    "setupFiles": [ "__mocks__/crypto.js", "__mocks__/metrics-repository.js" ],
     "testRegex": "/__tests__/.*\\.spec\\.js$"
   }
 }

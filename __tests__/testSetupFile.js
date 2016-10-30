@@ -1,24 +1,19 @@
 /* global jasmine */
-/* eslint no-undef: "error" */
 
-const crypto = require('crypto');
+const chai = require('chai');
+const dirtyChai = require('dirty-chai');
+const knexConfig = require('./../knexfile')[process.env.NODE_ENV || 'test'];
+const knex = require('knex')(knexConfig);
+
+chai.use(dirtyChai);
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 5000;
 
-const cryptoMock = {
-  getRandomValues() {
-    crypto.randomBytes(16);
+global.jestExpect = global.expect;
+global.expect = chai.expect;
+
+global.dbTestTools = {
+  resetTable(tableName) {
+    knex(tableName).truncate();
   },
 };
-
-Object.defineProperty(window, 'crypto', { value: cryptoMock });
-
-jest.mock('../server/repositories/metrics-repository', () =>
-  Object.assign({}, {
-    lastResponseDurationOfUris() {
-      return new Promise((resolve) => {
-        resolve([]);
-      });
-    },
-  })
-);

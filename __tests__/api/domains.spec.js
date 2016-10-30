@@ -1,14 +1,12 @@
-const expect = require('chai').expect;
 const request = require('supertest');
 const express = require('express');
 const domainsApi = require('../../server/api/v1/domains');
-const testHelper = require('./../test-helper');
 
 const app = express();
 app.use('/api/v1/domains', domainsApi);
 
 describe('POST /api/v1/domains', () => {
-  afterEach(() => testHelper.resetTable('domains'));
+  afterEach(() => dbTestTools.resetTable('domains'));
 
   it('returns a domain with valid data', (done) => {
     const generatedId = Date.now();

@@ -1,14 +1,8 @@
-const chai = require('chai');
-const testHelper = require('./../test-helper');
 const domainRepository = require('../../server/repositories/domain-repository');
-
-chai.use(require('dirty-chai'));
-
-const expect = chai.expect;
 
 describe('DomainRepository', () => {
   describe('#save()', () => {
-    afterEach(() => testHelper.resetTable('domains'));
+    afterEach(() => dbTestTools.resetTable('domains'));
 
     it('returns a domain', () => {
       const domain = { uri: 'https://www.google.com', httpMethod: 'GET' };
