@@ -6,7 +6,7 @@ const log = require('./logger')('React');
 
 const app = express();
 const compiler = webpack(config);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3300;
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,

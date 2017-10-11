@@ -44,7 +44,9 @@ const DomainRepository = {
     return new Promise((resolve, reject) => {
       Domain.fetchAll()
         .then(records => records.map(recordToObject))
-        .then(objects => Object.assign({}, { objects, uris: objects.map(({ uri }) => uri) }))
+        .then(objects => {
+          return Object.assign({}, { objects, uris: objects.map(({ uri }) => uri) })
+        })
         .then(({ objects, uris }) => {
           metricsRepository.lastResponseDurationOfUris(uris, metricsRepository.DEFAULT_LIMIT)
             .then((metrics) => {
@@ -54,6 +56,13 @@ const DomainRepository = {
         .catch(reject);
     });
   },
+  delete(id) {
+    return new Promise((resolve, reject) => {
+      Domain.query().whereIn('id', 1).del()
+      .then(destroyed => resolve('deleted successfully'))
+      .catch(reject)
+    })
+  }
 };
 
 module.exports = DomainRepository;

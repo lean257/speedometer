@@ -1,4 +1,4 @@
-import { ADD_DOMAIN, RECEIVE_DOMAIN, RECEIVE_DOMAINS, RECEIVE_DOMAIN_METRICS } from '../actions';
+import { ADD_DOMAIN, RECEIVE_DOMAIN, RECEIVE_DOMAINS, RECEIVE_DOMAIN_METRICS, DELETE_DOMAIN } from '../actions';
 
 function domains(state = [], action) {
   switch (action.type) {
@@ -50,6 +50,11 @@ function domains(state = [], action) {
         { ...state[index], metrics: metrics[uri] },
         ...state.slice(index + 1), // right part
       ];
+    }
+
+    case DELETE_DOMAIN: {
+      console.log('action.id inside reducers', action.id)
+      return state.filter(domain => domain.id !== action.id)
     }
     default:
       return state;

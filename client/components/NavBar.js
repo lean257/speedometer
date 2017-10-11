@@ -11,17 +11,21 @@ const NavBar = () => (
           <span className="icon-bar" />
           <span className="icon-bar" />
         </button>
-        <Link to="/" className="navbar-brand">PokeDOM</Link>
+        <Link to="/" className="navbar-brand">Speedometer</Link>
       </div>
       <div id="navbar" className="navbar-collapse collapse">
         <ul className="nav navbar-nav navbar-right">
           <li><Link to="/">Dashboard</Link></li>
           <li><Link to="/add-domain">Add Domain</Link></li>
           <li><Link to="/notifications">Notifications</Link></li>
+          <li><Link to="/login">Welcome An!</Link></li>
+          <li><Link to="/logout">Logout</Link></li>
         </ul>
       </div>
     </div>
   </nav>
 );
+
+
 
 export default NavBar;

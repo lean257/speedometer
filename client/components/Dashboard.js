@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Line as LineChart } from 'rc-chartjs';
+import { connect } from 'react-redux'
+import { removeDomain } from '../actions/index'
 
 const formatChartLabel = label => label.replace(/(\d{2}:\d{2}:\d{2})/, '$1');
 
@@ -12,8 +14,12 @@ const generateChartLabels = (metric) => {
 const generateChartValues = metric => metric.value;
 
 class Dashboard extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
   componentDidMount() {
-    document.title = `${this.props.config.defaultTitle} | Dashboard`;
+    document.title = `Speedometer | Dashboard`;
     this.props.fetchDomains();
   }
 
@@ -31,6 +37,12 @@ class Dashboard extends React.Component {
           <div className="panel panel-default">
             <div className="panel-heading">
               <h3 className="panel-title">{domain.uri}</h3>
+              <button
+              className="btn btn-default media-right"
+              onClick={e => this.deleteDomain(e, domain.id)}
+              value={domain.id}>
+              <span className="glyphicon glyphicon-remove" />
+              </button>
             </div>
             <div className="panel-body">{lineChart}</div>
           </div>
@@ -43,23 +55,13 @@ class Dashboard extends React.Component {
       </div>
     );
   }
+  deleteDomain(event, id) {
+    this.forceUpdate()
+    this.props.removeDomain(id)
+  }
 }
 
-Dashboard.propTypes = {
-  config: PropTypes.shape({
-    defaultTitle: PropTypes.string.isRequired,
-    defaultChartOptions: PropTypes.shape(),
-  }),
-  domains: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    uri: PropTypes.string.isRequired,
-    httpMethod: PropTypes.string.isRequired,
-    metrics: PropTypes.arrayOf(PropTypes.shape({
-      value: PropTypes.number,
-      time: PropTypes.string,
-    })),
-  })),
-  fetchDomains: PropTypes.func,
-};
+const mapState = null
+const mapDispatch = {removeDomain}
 
-export default Dashboard;
+export default connect(mapState, mapDispatch)(Dashboard)

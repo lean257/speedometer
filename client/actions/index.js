@@ -5,6 +5,7 @@ export const ADD_DOMAIN = 'ADD_DOMAIN';
 export const RECEIVE_DOMAIN = 'RECEIVE_DOMAIN';
 export const RECEIVE_DOMAINS = 'RECEIVE_DOMAINS';
 export const RECEIVE_DOMAIN_METRICS = 'RECEIVE_DOMAIN_METRICS';
+export const DELETE_DOMAIN = 'DELETE_DOMAIN'
 
 axios.defaults.baseURL = 'http://localhost:4000/api/v1';
 
@@ -56,3 +57,17 @@ export function receiveDomainMetrics({ uri, metrics }) {
     metrics,
   };
 }
+
+function deleteDomain({id}) {
+  return {
+    type: DELETE_DOMAIN,
+    id
+  }
+}
+
+export const removeDomain = (id) => dispatch => {
+  return axios.delete(`/domains/${id}`)
+    .then(status => dispatch(deleteDomain(id)))
+    .catch(console.error)
+}
+

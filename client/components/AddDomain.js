@@ -22,24 +22,17 @@ class AddDomain extends React.Component {
   render() {
     return (
       <form autoComplete="off" onSubmit={this.onSubmit}>
-        <h2 className="caption text-center">Add a new domain to watch</h2>
+        <h2 className="caption text-center">Add a new domain</h2>
         <div className="group">
           <input type="text" placeholder="https://www.google.com/" onChange={this.onChange} />
           <label htmlFor="uri">URI</label>
         </div>
         <div className="group">
-          <input type="submit" className="button" value="Let me Poke it!" />
+          <input type="submit" className="button" value="Monitor Now" />
         </div>
       </form>
     );
   }
 }
-
-AddDomain.propTypes = {
-  config: PropTypes.shape({
-    defaultTitle: PropTypes.string.isRequired,
-  }),
-  addDomain: PropTypes.func,
-};
 
 export default AddDomain;

@@ -1,5 +1,5 @@
 const config = {
-  defaultTitle: 'PokeDOM',
+  defaultTitle: 'Speedometer',
   defaultChartOptions: {
     animationEasing: 'linear',
     responsive: true,

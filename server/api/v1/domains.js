@@ -10,7 +10,10 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 router.route('/')
   .get((request, response) => {
-    repository.all().then(collection => response.status(200).json(collection));
+    repository.all().then(collection => {
+      console.log('collection inside backend', collection)
+      response.status(200).json(collection)
+    })
   })
   .post((request, response) => {
     const { uri, httpMethod } = request.body;
@@ -25,5 +28,12 @@ router.route('/')
         response.sendStatus(500);
       });
   });
+
+router.delete('/:domainId', (req, res, next) => {
+  const { id } = req.params.domainId
+  repository.delete(id)
+  .then(deleted => res.sendStatus(204))
+  .catch(console.err)
+})
 
 module.exports = router;
